@@ -1,30 +1,22 @@
 TARGET?=virt
 CROSS_COMPILE?=riscv64-unknown-elf- 
+GDB_PORT?=1234
+CFLAGS=-nostdlib -ffreestanding -mcmodel=medany -nostdinc -I${.CURDIR}/include 
+.export
 
-BUILDDIR=build/${TARGET}
-TARGETDIR=mainboard/${TARGET}
+sys: ${SRC} lib/build/libc.a
+	@echo "building kernel"
+	(${MAKE} -C sys -e) 
 
-CFLAGS=-nostdlib -ffreestanding -mcmodel=medany
+lib/build/libc.a: 
+	@echo "building libc"
+	(${MAKE} -C lib -e)
 
-.if !exists(${TARGETDIR}/conf/mainboard.mk)
-.error 'ERROR: invalid target "${TARGET}"'
-.else
-.include <${TARGETDIR}/conf/mainboard.mk>
-.endif
-
-all: ${BUILDDIR}/kernel.elf 
+debug: sys
+	(${MAKE} -C sys -e debug) 
 
 clean:
-	rm -rf ${BUILDDIR}
+	(${MAKE} -C sys -e clean)
+	(${MAKE} -C lib -e clean)
 
-${BUILDDIR}/kernel.elf: ${SRC}
-	mkdir -p ${BUILDDIR}
-	${CROSS_COMPILE}gcc ${SRC} \
-		-Wl,--defsym=LOAD_ADDR=${LOAD_ADDR}\
-		-Wl,--defsym=PAGE_SIZE=${PAGE_SIZE}\
-		-Wl,--defsym=NPROC=${NPROC}\
-		-DPAGE_SIZE=${PAGE_SIZE}\
-		${CFLAGS} -T kernel/lds/kernel.ld ${LDFLAGS}\
-		-o $@
-
-.PHONY: all clean
+.PHONY: sys debug all clean

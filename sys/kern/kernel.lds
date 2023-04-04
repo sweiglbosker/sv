@@ -8,13 +8,13 @@ SECTIONS
 
         .text :
         {
-                provide(__text_start = .);
+                PROVIDE(__text_start = .);
                 *(.text.init)
                 *(.text .text.*)
                 . = ALIGN(8);
                 PROVIDE(__text_end = .);
         }
-        .  = ALIGN(PAGE_SIZE);
+        . = ALIGN(PAGE_SIZE);
 
         PROVIDE(__global_pointer$ = .);
 
@@ -40,6 +40,17 @@ SECTIONS
         }
 
         . = ALIGN(PAGE_SIZE); 
+
+	.bss :
+	{
+		PROVIDE(__bss_start = .);
+		*(.sbss .sbss.*)
+		*(.bss .bss.*)
+		. = ALIGN(8);
+		PROVIDE(__bss_end = .);
+	}
+
+	. = ALIGN(PAGE_SIZE);
 
         PROVIDE(__stack_start = .);
         PROVIDE(__stack_end = __stack_start + (PAGE_SIZE * NPROC));
