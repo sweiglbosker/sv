@@ -1,0 +1,19 @@
+building requirments
+====================
+
+- bsd-compatible make 
+- a [riscv toolchain](https://github.com/riscv/riscv-gnu-toolchain)
+- qemu built for riscv64 with some kind of mmu support
+- [device tree compiler](https://github.com/dgibson/dtc)
+
+building
+========
+
+compile and test the kernel 
+
+```
+make clean sys
+make debug
+```
+
+
