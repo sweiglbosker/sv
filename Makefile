@@ -1,7 +1,7 @@
 TARGET?=virt
 CROSS_COMPILE?=riscv64-unknown-elf- 
 GDB_PORT?=1234
-CFLAGS=-nostdlib -ffreestanding -mcmodel=medany -nostdinc -I${.CURDIR}/include 
+CFLAGS=-nostdlib -ffreestanding -mcmodel=medany -I${.CURDIR}/include 
 .export
 
 sys: ${SRC} lib/build/libc.a

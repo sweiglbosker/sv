@@ -10,7 +10,7 @@ TARGETDIR=../mainboard/${TARGET}
 SRC=\
     kern/entry.S\
     kern/init.c\
-    kern/kernel_earlyprintf.c\
+    kern/printf.c\
     kern/mm/kalloc.c\
     dev/sbi.c
 

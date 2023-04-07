@@ -11,9 +11,10 @@ _start:
         la         gp, __global_pointer$
         .option pop
 
-        la         sp, __stack_start
+        addi       t0, a0, 1
         li         t1, PAGE_SIZE 
-        mul        t1, t1, a0
+        la         sp, __stack_start
+        mul        t1, t1, t0
         add        sp, sp, t1
 
         li         a2, 1
@@ -37,3 +38,6 @@ _spin:
 
 .section ".data"
 _boot_hart: .word 0
+.section ".rodata"
+.globl HEAP_START
+HEAP_START: .dword __heap_start
