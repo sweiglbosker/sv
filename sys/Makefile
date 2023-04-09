@@ -12,7 +12,10 @@ SRC=\
     kern/init.c\
     kern/printf.c\
     kern/mm/kalloc.c\
-    dev/sbi.c
+    kern/spinlock.c\
+    dev/sbi.c\
+    dev/fdt/fdt.c
+    
 
 ${BUILDDIR}/kernel.elf: ${SRC}
 	mkdir -p ${BUILDDIR}

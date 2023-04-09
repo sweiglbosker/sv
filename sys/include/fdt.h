@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <endian.h>
+#include <printf.h>
 
 #ifndef _FDT_H
 #define _FDT_H
@@ -33,5 +34,22 @@ struct fdt_reserve_entry {
         uint64_t address;
         uint64_t size;
 };
+
+struct fdt_node_header {
+	uint32_t tag;
+	char name[];
+};
+
+void    walk_fdt(struct fdt_header *header);
+
+#define FDT_MAGIC	0xd00dfeed	/* 4: version, 4: total size */
+#define FDT_TAGSIZE	sizeof(fdt32_t)
+
+#define FDT_BEGIN_NODE	0x1		/* Start node: full name */
+#define FDT_END_NODE	0x2		/* End node */
+#define FDT_PROP	0x3		/* Property: name off,
+					   size, content */
+#define FDT_NOP		0x4		/* nop */
+#define FDT_END		0x9
 
 #endif /* _FDT_H */

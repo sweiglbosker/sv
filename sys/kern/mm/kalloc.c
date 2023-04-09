@@ -46,10 +46,8 @@ kfree(void *p)
 void
 kalloc_init(void)
 {
-        printf("1\n");
         freenode_t *p = (freenode_t*)HEAP_START;
         for (;(unsigned long)p + PAGE_SIZE <= (HEAP_START + 0x100000); p += PAGE_SIZE) {
-                printf("freeing page at %p", p);
                 kfree(p);
         }
 }
