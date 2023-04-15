@@ -1,12 +1,17 @@
 #include <fdt.h>
 #include <mm/kalloc.h>
 #include <printf.h>
-#include <stdint.h>
 #include <spinlock.h>
+#include <sbi.h>
+#include <stdint.h>
 
 extern uint64_t HEAP_START;
 
-void 
+#define HLT()\
+	for (;;)\
+		asm("wfi")
+
+void
 init(unsigned long hartid, struct fdt_header *fdt)
 {
 
@@ -22,14 +27,25 @@ init(unsigned long hartid, struct fdt_header *fdt)
         kalloc_init();
         printf("done!\n");
        // printf("printing free pages:\n");
-        //walkfree();
+       ///walkfree();
+       	printf("bringing up other harts...\n");
+	// todo: detect harts from device tree can also be used for more conservative stack allocation
+	for (int i = 0; i < NPROC; ++i) {
+		if (i == hartid) { 
+			printf("skipping hart #%d\n", i);
+			continue;
+		}
+		printf("starting hart #%d\n", i); 
+		struct sbiret r = _start_hart(i, (unsigned long)LOAD_ADDR);
+		if (r.err != SBI_SUCCESS)
+			printf("ERROR");
+	}
 }
 
-/* non boot harts enter here */ 
-void 
-mpinit(unsigned long hartid, struct fdt_header *fdt)
+void
+mpinit(unsigned long hartid)
 {
-        unsigned char *uart = (unsigned char*)0x10000000;
-        *uart = hartid + '0';
-        *(uart + 1) = '\n';
+	printf("mpinit: %d", hartid);
+	HLT();
 }
+

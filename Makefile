@@ -1,7 +1,11 @@
 TARGET?=virt
+BUILD?=debug
 CROSS_COMPILE?=riscv64-unknown-elf- 
 GDB_PORT?=1234
 CFLAGS=-nostdlib -ffreestanding -mcmodel=medany -I${.CURDIR}/include 
+.if ${BUILD}==debug
+CFLAGS+=-ggdb
+.endif
 .export
 
 sys: ${SRC} lib/build/libc.a

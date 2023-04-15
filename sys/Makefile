@@ -13,7 +13,6 @@ SRC=\
     kern/printf.c\
     kern/mm/kalloc.c\
     kern/spinlock.c\
-    dev/sbi.c\
     dev/fdt/fdt.c
     
 
@@ -23,6 +22,8 @@ ${BUILDDIR}/kernel.elf: ${SRC}
 		-Wl,--defsym=LOAD_ADDR=${LOAD_ADDR}\
 		-Wl,--defsym=PAGE_SIZE=${PAGE_SIZE}\
 		-Wl,--defsym=NPROC=${NPROC}\
+		-DLOAD_ADDR=${LOAD_ADDR}\
+		-DNPROC=${NPROC}\
 		-DPAGE_SIZE=${PAGE_SIZE}\
 		-I ./include\
 		${CFLAGS} -T kern/kernel.lds ${LDFLAGS}\

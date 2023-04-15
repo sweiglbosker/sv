@@ -1,9 +1,13 @@
 #include <printf.h>
 #include <stdint.h>
+#include <spinlock.h>
 #include <sbi.h>
 #include <stdarg.h>
 
 static char digits[] = "0123456789abcdef";
+
+struct spinlock mutex;
+int locked = 0;
 
 int
 puts(const char *str)
@@ -52,8 +56,12 @@ void
 printf(const char *fmt, ...) 
 {
         va_list ap;
-        int i, c;
+        int i, c, _locked;
         char *s;
+
+	_locked = locked;
+	if (_locked)
+		acquire(&mutex);
 
         va_start(ap, fmt);
 
@@ -82,4 +90,12 @@ printf(const char *fmt, ...)
                                 break;
                 }
         }
+	if (_locked)
+		release(&mutex);
+}
+
+void printf_init(void)
+{
+	initlock(&mutex);
+	locked = 1;
 }

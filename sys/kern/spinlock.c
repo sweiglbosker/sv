@@ -1,15 +1,38 @@
+#include <asm.h>
 #include <spinlock.h>
 
 void 
-init_locklock(struct spinlock *l, const char *_name)
+initlock(struct spinlock *l)
 {
-        l->name = _name;
         l->locked = 0;
-        l->cpu = 0;
 }
 
 void 
-acquire_lock(struct spinlock *l) 
+acquire(struct spinlock *l)
 {
-       asm volatile("csrr sie, zero");
+	sie_disable();
+
+	if (l->locked)
+		return;
+
+	while (__sync_lock_test_and_set(&l->locked, 1))
+			;
+
+	__sync_synchronize();
+}
+
+void 
+release(struct spinlock *l) 
+{
+	sie_disable(); // avoid deadlock
+
+	if (l->locked)
+		return;  // interrupts are still disabled, what to do here?
+
+	/* fence */
+	__sync_synchronize();
+
+	__sync_lock_release(&l->locked);
+
+	sie_enable();
 }

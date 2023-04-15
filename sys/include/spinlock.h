@@ -3,9 +3,13 @@
 
 struct spinlock {
         int locked;
-        const char *name;
+	int tp;
 };
 
-void initlock(struct spinlock *, const char *);
+void initlock(struct spinlock *);
+
+void acquire(struct spinlock *);
+
+void release(struct spinlock *);
 
 #endif /* _LOCK_H */
