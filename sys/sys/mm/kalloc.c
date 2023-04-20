@@ -20,7 +20,7 @@ kalloc(void)
 {
 	acquire(&mutex);
 	freenode_t *p = head;
-	
+
 	if (p == NULL)
 		return NULL;
 
@@ -54,21 +54,21 @@ void
 kalloc_init(void)
 {
 	initlock(&mutex);
-        freenode_t *p = (freenode_t*)HEAP_START;
-        for (;(unsigned long)p + PAGE_SIZE <= (HEAP_START + 0x100000); p += PAGE_SIZE) {
-                kfree(p);
-        }
+	freenode_t *p = (freenode_t*)HEAP_START;
+	for (;(unsigned long)p + PAGE_SIZE <= (HEAP_START + 0x100000); p += PAGE_SIZE) {
+		kfree(p);
+	}
 }
 
 void 
 walkfree(void)
 {
-        freenode_t *node = head;
-        int nfree = 0;
-        while (node) {
-                printf("freenode at %p\n", node);
-                node = node->next;
-                nfree++;
-        }
-        printf("found and printed %d free pages!\n", nfree);
+	freenode_t *node = head;
+	int nfree = 0;
+	while (node) {
+		printf("freenode at %p\n", node);
+		node = node->next;
+		nfree++;
+	}
+	printf("found and printed %d free pages!\n", nfree);
 }

@@ -10,8 +10,8 @@
 static inline uint32_t
 __bswap32(uint32_t x)
 {
-        uint8_t *p = (uint8_t*)&x;
-        return ((p[0] << 030) | (p[1] << 020) | (p[2] << 010) | p[3]);
+	uint8_t *p = (uint8_t*)&x;
+	return ((p[0] << 030) | (p[1] << 020) | (p[2] << 010) | p[3]);
 }
 
 #endif /* _ENDIAN_H */
