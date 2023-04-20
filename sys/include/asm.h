@@ -50,6 +50,7 @@ read_tp(void)
 {
         uint64_t x;
         asm volatile("addi %0, tp, 0" : "=r"(x));
+	return x;
 }
 
 #endif /* _ASM_H */ 

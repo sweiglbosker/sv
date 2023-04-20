@@ -6,8 +6,7 @@
 
 static char digits[] = "0123456789abcdef";
 
-struct spinlock mutex;
-int locked = 0;
+static spinlock_t mutex;
 
 int
 puts(const char *str)
@@ -59,9 +58,7 @@ printf(const char *fmt, ...)
         int i, c, _locked;
         char *s;
 
-	_locked = locked;
-	if (_locked)
-		acquire(&mutex);
+	acquire(&mutex);
 
         va_start(ap, fmt);
 
@@ -90,12 +87,10 @@ printf(const char *fmt, ...)
                                 break;
                 }
         }
-	if (_locked)
-		release(&mutex);
+	release(&mutex);
 }
 
 void printf_init(void)
 {
 	initlock(&mutex);
-	locked = 1;
 }

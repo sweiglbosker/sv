@@ -20,9 +20,10 @@ fdt_walk(struct fdt_header *header)
         printf("header->size_dt_strings: %d\n", fdt_uint32(header->size_dt_strings));
         printf("header->size_dt_struct: %d\n",  fdt_uint32(header->size_dt_struct));
 
-        uint8_t *dts = header + fdt_uint32(header->off_dt_struct) + sizeof(uint32_t);
-        uint8_t *dtstr = header + fdt_uint32(header->off_dt_strings);
-        printf("parsing dt struct @%p...\n", dts);
-        printf(dts);
+	printf("walking the memory reservation block...\n");
+	struct fdt_reserve_entry *p = header + fdt_uint32(header->off_mem_rsvmap);
+//	do {
+//		printf("reserved entry at %p with size %i\n", p->address, p->size);
+//		p++;
+//	} while (!(p->size == 0 && p->address == 0));
 }
-

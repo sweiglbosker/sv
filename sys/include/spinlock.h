@@ -1,15 +1,17 @@
-#ifndef _LOCK_H
-#define _LOCK_H
+#ifndef _SPINLOCK_H
+#define _SPINLOCK_H
 
-struct spinlock {
-        int locked;
-	int tp;
-};
+/* fifo ticket lock implementation */ 
 
-void initlock(struct spinlock *);
+typedef struct _spinlock {
+	int ticket;
+	int turn;
+} spinlock_t;
 
-void acquire(struct spinlock *);
+void initlock(spinlock_t *);
 
-void release(struct spinlock *);
+void acquire(spinlock_t *);
 
-#endif /* _LOCK_H */
+void release(spinlock_t *);
+
+#endif /* _SPINLOCK_H */

@@ -40,7 +40,7 @@ struct fdt_node_header {
 	char name[];
 };
 
-void    walk_fdt(struct fdt_header *header);
+void    fdt_walk(struct fdt_header *header);
 
 #define FDT_MAGIC	0xd00dfeed	/* 4: version, 4: total size */
 #define FDT_TAGSIZE	sizeof(fdt32_t)

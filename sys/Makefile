@@ -8,11 +8,11 @@ TARGETDIR=../mainboard/${TARGET}
 .endif
 
 SRC=\
-    kern/entry.S\
-    kern/init.c\
-    kern/printf.c\
-    kern/mm/kalloc.c\
-    kern/spinlock.c\
+    sys/entry.S\
+    sys/init.c\
+    sys/printf.c\
+    sys/mm/kalloc.c\
+    sys/smp/spinlock.c\
     dev/fdt/fdt.c
     
 
@@ -25,8 +25,9 @@ ${BUILDDIR}/kernel.elf: ${SRC}
 		-DLOAD_ADDR=${LOAD_ADDR}\
 		-DNPROC=${NPROC}\
 		-DPAGE_SIZE=${PAGE_SIZE}\
+		-I ../include\
 		-I ./include\
-		${CFLAGS} -T kern/kernel.lds ${LDFLAGS}\
+		${CFLAGS} -T sys/kernel.lds ${LDFLAGS}\
 		-L../lib/${BUILDDIR}/\
 		-l:libc.a\
 		-o $@
