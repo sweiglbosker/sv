@@ -1,5 +1,5 @@
 BUILDDIR=build/${TARGET}
-TARGETDIR=../mainboard/${TARGET}
+TARGETDIR=../../mainboard/${TARGET}
 
 .if !exists(${TARGETDIR}/conf/mainboard.conf)
 .error 'ERROR: invalid target "${TARGET}"'
@@ -8,7 +8,11 @@ TARGETDIR=../mainboard/${TARGET}
 .endif
 
 SRC=\
-    string/memset.c
+    string/memcpy.c \
+    string/memmove.c \
+    string/memset.c \
+    string/memcmp.c \
+    string/memchr.c \
 
 
 ${BUILDDIR}/libc.a: ${SRC}

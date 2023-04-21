@@ -13,7 +13,6 @@ SRC=\
     sys/printf.c\
     sys/mm/kalloc.c\
     sys/smp/spinlock.c\
-    dev/fdt/fdt.c
     
 
 ${BUILDDIR}/kernel.elf: ${SRC}
@@ -28,7 +27,7 @@ ${BUILDDIR}/kernel.elf: ${SRC}
 		-I ../include\
 		-I ./include\
 		${CFLAGS} -T sys/kernel.lds ${LDFLAGS}\
-		-L../lib/${BUILDDIR}/\
+		-L../lib/libc/${BUILDDIR}/\
 		-l:libc.a\
 		-o $@
 

@@ -1,10 +1,10 @@
 #include <stddef.h>
 #include <spinlock.h>
-#include <fdt.h>
 #include <stdint.h>
 #include <string.h>
 #include <printf.h>
 #include <kalloc.h>
+#include <stdio.h>
 
 extern uint64_t HEAP_START; 
 
