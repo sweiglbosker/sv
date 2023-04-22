@@ -9,6 +9,7 @@
 #include <libfdt.h>
 
 #include "libfdt_internal.h"
+#include <string.h>
 
 /*
  * Minimal sanity check for a read-only tree. fdt_ro_probe_() checks

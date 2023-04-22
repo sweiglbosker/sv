@@ -2,9 +2,8 @@
 
 char *strchr(const char *s, int c) {
 	do {
-		if ((char)c == *s) {
+		if ((char)c == *s) 
 			return (char*)s;
-		}
 	} while (*s++ != '\0');
 	return NULL;
 }

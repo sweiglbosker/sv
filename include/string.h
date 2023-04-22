@@ -13,7 +13,6 @@ void *memchr(const void *, int, size_t);
 char *strchr(const char *, int);
 char *strrchr(const char*, int);
 
-//size_t strlen(const char *);
-#define strlen(s) __builtin_strlen(s)
-#define strnlen(s, n) __builtin_strnlen(s, n)
+size_t strlen(const char *);
+size_t strnlen(const char *, size_t);
 #endif /* _STRING_H */

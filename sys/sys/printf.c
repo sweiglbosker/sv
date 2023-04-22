@@ -56,6 +56,7 @@ printptr(uint64_t x)
 		putchar(digits[x >> (sizeof(int64_t) * 8 - 4)]);
 }
 
+/* literally zero overflow checking (i am the best programmer of all time) */
 void
 printf(const char *fmt, ...) 
 {
@@ -89,6 +90,9 @@ printf(const char *fmt, ...)
 				break;
 			case '%':
 				putchar('%');
+				break;
+			case 's':
+				puts(va_arg(ap, const char *));
 				break;
 		}
 	}

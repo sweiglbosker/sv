@@ -13,6 +13,8 @@ SRC=\
     string/memset.c \
     string/memcmp.c \
     string/memchr.c \
+    string/strlen.c \
+    string/strchr.c
 
 
 ${BUILDDIR}/libc.a: ${SRC}

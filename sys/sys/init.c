@@ -1,4 +1,6 @@
+#include <dev.h>
 #include <libfdt.h>
+#include <string.h>
 #include <kalloc.h>
 #include <spinlock.h>
 #include <stdio.h>
@@ -22,6 +24,8 @@ init(unsigned long hartid, struct fdt_header *fdt)
 	kalloc_init();
 	printf_init();
 	printf("done!\n");
+
+	dev_init(fdt);
 
 	printf("bringing up other harts...\n");
 	for (int i = 0; i < NPROC; ++i) {

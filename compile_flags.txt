@@ -1,0 +1,6 @@
+-Iinclude/
+-Isys/include/
+-nostdlib
+-nostdinc
+-ffreestanding
+-mcmodel=medany
