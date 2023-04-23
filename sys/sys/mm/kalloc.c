@@ -6,13 +6,15 @@
 #include <kalloc.h>
 #include <stdio.h>
 
+#define ALIGNPG(n)	(((n) + (uintptr_t)PAGE_SIZE - 1) & ~((uintptr_t)PAGE_SIZE))
+
 extern uint64_t HEAP_START; 
 
 typedef struct freenode {
 	struct freenode *next;
 } freenode_t;
 
-freenode_t *head = NULL;
+freenode_t *head = {0};
 static spinlock_t mutex;
 
 void *
@@ -40,8 +42,9 @@ kzalloc(void)
 void
 kfree(void *p)
 {
-	if (p == NULL || (uint64_t)p % (uint64_t)PAGE_SIZE)
+	if (p == NULL) {
 		return;
+	}
 
 	acquire(&mutex);
 	freenode_t *tmp = head;
@@ -51,11 +54,12 @@ kfree(void *p)
 }
 
 void
-kalloc_init(void)
+kalloc_init(uintptr_t end)
 {
 	initlock(&mutex);
 	freenode_t *p = (freenode_t*)HEAP_START;
-	for (;(unsigned long)p + PAGE_SIZE <= (HEAP_START + 0x100000); p += PAGE_SIZE) {
+	end = ALIGNPG(end);
+	for (;(unsigned long)p + PAGE_SIZE <= end; p += PAGE_SIZE) {
 		kfree(p);
 	}
 }
@@ -65,7 +69,7 @@ walkfree(void)
 {
 	freenode_t *node = head;
 	int nfree = 0;
-	while (node) {
+	while (node != NULL) {
 		printf("freenode at %p\n", node);
 		node = node->next;
 		nfree++;

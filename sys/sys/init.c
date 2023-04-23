@@ -20,12 +20,16 @@ init(unsigned long hartid, struct fdt_header *fdt)
 
 	printf("booting from hart #%d\n", hartid);
 
-	printf("setting up the heap at %p\n", HEAP_START);
-	kalloc_init();
 	printf_init();
 	printf("done!\n");
 
-	dev_init(fdt);
+	struct devicetree dt = dev_init(fdt);
+
+	printf("setting up page frame allocator at %p\n", HEAP_START);
+	kalloc_init(dt.memory.origin + dt.memory.size);
+	printf("done!\n");
+
+//	walkfree();
 
 	printf("bringing up other harts...\n");
 	for (int i = 0; i < NPROC; ++i) {

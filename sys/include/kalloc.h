@@ -7,7 +7,7 @@ void *kzalloc(void);
 
 void kfree(void *);
 
-void kalloc_init(void);
+void kalloc_init(size_t);
 
 void walkfree(void);
 

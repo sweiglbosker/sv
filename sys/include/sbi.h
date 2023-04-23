@@ -1,6 +1,8 @@
 #ifndef _SBI_H
 #define _SBI_H
 
+#include <stdint.h> 
+
 struct sbiret {
 	long err;
 	long val;
@@ -56,6 +58,12 @@ static inline void
 sbi_console_putchar(int c)
 {
 	sbi_ecall(1, 0, c, 0, 0, 0, 0, 0);
+}
+
+static inline void 
+sbi_debug_console_write_byte(uint8_t byte)
+{
+	sbi_ecall(0x4442434E, 0x2, 'c', 0, 0, 0, 0, 0);
 }
 
 static inline void

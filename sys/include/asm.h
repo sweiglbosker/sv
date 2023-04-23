@@ -53,4 +53,10 @@ read_tp(void)
 	return x;
 }
 
+static inline void 
+csrw_satp(uint64_t x)
+{
+	asm volatile("csrw satp, %0" : : "r"(x));
+}
+
 #endif /* _ASM_H */ 

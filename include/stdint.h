@@ -14,6 +14,12 @@ typedef long	int64_t;
 
 typedef unsigned long uintptr_t;
 
+#if __riscv_xlen == 32
+typedef unsigned int uintptr_t;
+#elif __riscv_xlen == 64
+typedef unsigned long uintptr_t;
+#endif 
+
 #define INT16_MIN  (-1-0x7fff)
 #define INT32_MIN  (-1-0x7fffffff)
 #define INT64_MIN  (-1-0x7fffffffffffffff)
