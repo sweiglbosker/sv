@@ -26,6 +26,19 @@ mem_init(struct fdt_header *fdt, struct devicetree *dt)
 	printf("[mem_init] found %d memory reserve map entries\n", n);
 }
 
+static void
+cpu_init(struct fdt_header *fdt, struct devicetree *dt)
+{
+
+	int cpus = fdt_path_offset(fdt, "/cpus");
+	if (cpus < 0)
+		printf("[dev_init] failed to find cpus node\n");
+
+	int node = 0;
+	fdt_for_each_subnode(node, fdt, cpus) {
+		
+	}
+}
 
 struct devicetree
 dev_init(struct fdt_header *fdt) 
@@ -39,6 +52,7 @@ dev_init(struct fdt_header *fdt)
 
 	printf("[dev_init] detecting memory...\n");
 	mem_init(fdt, &dt);
+	cpu_init(fdt, &dt);
 
 //	int offset = fdt_next_node(fdt, offset, 0);
 //	do {

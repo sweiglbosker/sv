@@ -67,6 +67,12 @@ sbi_debug_console_write_byte(uint8_t byte)
 }
 
 static inline void
+sbi_remote_sfence_vma(unsigned long hart_mask, unsigned long hart_mask_base, unsigned long start_addr, unsigned long size)
+{
+	sbi_ecall(0x52464E43, 1, hart_mask, hart_mask_base, start_addr, size, 0, 0);
+}
+
+static inline void
 sbi_shutdown(void)
 {
 	sbi_ecall(8, 0, 0, 0, 0, 0, 0, 0);

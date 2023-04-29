@@ -7,6 +7,7 @@
 #include <printf.h>
 #include <sbi.h>
 #include <stdint.h>
+#include <vm.h>
 
 extern uint64_t HEAP_START;
 
@@ -29,6 +30,9 @@ init(unsigned long hartid, struct fdt_header *fdt)
 	kalloc_init(dt.memory.origin + dt.memory.size);
 	printf("done!\n");
 
+	printf("allocating kernel pagetable...\n");
+	kptinit();
+	
 //	walkfree();
 
 	printf("bringing up other harts...\n");

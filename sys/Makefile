@@ -12,6 +12,7 @@ SRC=\
     sys/init.c\
     sys/printf.c\
     sys/mm/kalloc.c\
+    sys/vm/vm.c\
     sys/smp/spinlock.c\
     dev/dev_init.c\
     
